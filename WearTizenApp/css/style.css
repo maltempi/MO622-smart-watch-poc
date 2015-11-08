@@ -21,3 +21,7 @@ body {
 	font-size:5em;
 	color:#fff;
 }
+
+.no_href {
+	text-decoration: none;
+}

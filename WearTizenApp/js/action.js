@@ -9,6 +9,7 @@ Action.prototype.connect = function() {
 };
 
 Action.prototype.disconnect = function() {
+    navigator.vibrate(0); // cancel vibration
     this.semaphore.disconnect();
     document.location.href = 'index.html';
 };
@@ -21,8 +22,10 @@ Action.prototype.initObservers = function() {
         if (semaphoreStatus === 'stop') {
             document.getElementById("sign").src="res/images/stop.png";
             document.body.style.background = 'red';
+            navigator.vibrate(1000);
         } else {
             document.getElementById("sign").src="res/images/go.png";
+            navigator.vibrate([500, 100, 500]); // 500 on; 100 off; 500 on;
             document.body.style.background = 'green';
         }
     });

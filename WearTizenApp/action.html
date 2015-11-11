@@ -10,16 +10,14 @@
     <title>Just a prove of concept developed to MO622 (HCI) discipline of Unicamp (Brazil)</title>
     <link rel='stylesheet' type='text/css' href='css/style.css'/>
   </head>
-  <body>
+  <body onclick="action.tapScreen()">
     <div class=contents>
       <div style='margin:auto; text-align: center'>
         <span id="timeLeft" class='content_text'></span><br><!-- gambs :P -->
         <img id="sign" src=""></img>
       </div>
     </div>
-    <div id="footer">
-      <button onClick="action.disconnect();" id="event-save" data-role="button" data-inline="true">Desconectar</button>
-    </div>
+    <script src='js/util.js'></script>
     <script src='js/semaphoreMock.js'></script>
     <script src='js/action.js'></script>
   </body>

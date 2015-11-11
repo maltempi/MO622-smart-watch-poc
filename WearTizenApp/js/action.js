@@ -6,6 +6,7 @@ Action.prototype.connect = function() {
     this.semaphore = new SemaphoreMock();
     this.initObservers();
     this.semaphore.connect();
+    this.street = "";
 };
 
 Action.prototype.disconnect = function() {
@@ -14,17 +15,37 @@ Action.prototype.disconnect = function() {
     document.location.href = 'index.html';
 };
 
+Action.prototype.tapScreen = function() {
+
+    var that = this;
+
+    util.doubleTapHandler(function(isDoubleTap) {
+        if (isDoubleTap) {
+            that.disconnect();
+        } else {
+            that.showStreetName();
+        }
+    });
+}
+
+Action.prototype.showStreetName = function() {
+    alert(this.streetName);
+};
+
 Action.prototype.initObservers = function() {
+
+    var that = this;
+
     document.addEventListener("semaphoreStatus", function(e) {
         console.log(e);
         var semaphoreStatus = e.detail;
 
         if (semaphoreStatus === 'stop') {
-            document.getElementById("sign").src="res/images/stop.png";
+            document.getElementById("sign").src = "res/images/stop.png";
             document.body.style.background = 'red';
             navigator.vibrate(1000);
         } else {
-            document.getElementById("sign").src="res/images/go.png";
+            document.getElementById("sign").src = "res/images/go.png";
             navigator.vibrate([500, 100, 500]); // 500 on; 100 off; 500 on;
             document.body.style.background = 'green';
         }
@@ -35,9 +56,12 @@ Action.prototype.initObservers = function() {
         document.getElementById("timeLeft").innerHTML = e.detail;
     });
 
+    document.addEventListener("streetName", function(e) {
+        that.streetName = e.detail;
+    });
 
     /*
-    Don't works at Tizen platform :(
+    Don't works on Tizen platform :(
 
     Object.observe(this.semaphore, function(changes) {
 

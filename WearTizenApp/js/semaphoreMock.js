@@ -34,7 +34,16 @@ function SemaphoreMock() {
      */
     this.connected = false;
 
-}
+    /*
+     * Hardcoded streets names
+     */
+    this.streets = ['Av. Brasil', 'Av. Nove de Abril', 'Av. dos Trabalhadores', 'Av. Pe. Jaime'];
+
+    /*
+     * The street
+     */
+    this.street = null;
+};
 
 /*
  * Disconnect from device
@@ -42,7 +51,7 @@ function SemaphoreMock() {
 SemaphoreMock.prototype.disconnect = function() {
     this.connected = false;
     this.timeLeft = 0;
-}
+};
 
 /*
  * Connect to device
@@ -52,13 +61,15 @@ SemaphoreMock.prototype.connect = function() {
         this.connected = true;
         this.startEngine();
     }
-}
+};
 
 /*
  * Initialize the semaphore logic with a random initial value
  */
 SemaphoreMock.prototype.startEngine = function() {
     this.semaphoreStatus = Math.floor(Math.random() * 2) === 0 ? 'stop' : 'go';
+    this.street = this.streets[Math.floor(Math.random() * 3)];
+    this.fireEventStreetName();
     this.fireEventSemaphoreStatus();
     this.run(this.timeoutGo);
 };
@@ -111,7 +122,7 @@ SemaphoreMock.prototype.timer = function() {
         }
 
     }, 1000);
-}
+};
 
 SemaphoreMock.prototype.fireEventTimeLeft = function() {
     var event = new CustomEvent("timeLeft", {
@@ -119,7 +130,15 @@ SemaphoreMock.prototype.fireEventTimeLeft = function() {
     });
 
     document.dispatchEvent(event);
-}
+};
+
+SemaphoreMock.prototype.fireEventStreetName = function() {
+    var event = new CustomEvent("streetName", {
+        "detail": this.street
+    });
+
+    document.dispatchEvent(event);
+};
 
 SemaphoreMock.prototype.fireEventSemaphoreStatus = function() {
     var event = new CustomEvent("semaphoreStatus", {
@@ -127,7 +146,7 @@ SemaphoreMock.prototype.fireEventSemaphoreStatus = function() {
     });
 
     document.dispatchEvent(event);
-}
+};
 
 /*
  * Change semaphore status.

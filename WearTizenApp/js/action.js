@@ -9,12 +9,6 @@ Action.prototype.connect = function() {
     this.street = "";
 };
 
-function playSound(audioResource) {
-    var audio = document.getElementById("audio");
-    audio.src = audioResource;
-    audio.play();
-}
-
 Action.prototype.disconnect = function() {
     navigator.vibrate(0); // cancel vibration
     this.semaphore.disconnect();
@@ -49,16 +43,16 @@ Action.prototype.initObservers = function() {
         if (semaphoreStatus === 'stop') {
             document.getElementById("sign").src = "res/images/stop.png";
             document.body.style.background = 'red';
-            playSound('res/audios/stop.mp3');
+            util.playSound('res/audios/stop.mp3');
             navigator.vibrate(1000);
         } else {
             document.getElementById("sign").src = "res/images/go.png";
 
             if (that.semaphore.getTimeLeft() >= 1 && that.semaphore.getTimeLeft() <= 5) {
-                playSound('res/audios/dangerous_crossing.mp3');
+                util.playSound('res/audios/dangerous_crossing.mp3');
                 navigator.vibrate(1000);
             } else {
-                playSound('res/audios/go.mp3');
+                util.playSound('res/audios/go.mp3');
                 navigator.vibrate([500, 100, 500]); // 500 on; 100 off; 500 on;
             }
             document.body.style.background = 'green';
@@ -71,13 +65,13 @@ Action.prototype.initObservers = function() {
 
         switch (e.detail) {
             case 5:
-                playSound('res/audios/time_left_5.mp3');
+                util.playSound('res/audios/time_left_5.mp3');
                 break;
             case 10:
-                playSound('res/audios/time_left_10.mp3');
+                util.playSound('res/audios/time_left_10.mp3');
                 break;
             case 15:
-                playSound('res/audios/time_left_15.mp3');
+                util.playSound('res/audios/time_left_15.mp3');
                 break;
         };
     });

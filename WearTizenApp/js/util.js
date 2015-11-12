@@ -18,3 +18,9 @@ Util.prototype.doubleTapHandler = function(callback) {
         return callback(true);
     }
 }
+
+Util.prototype.playSound = function(audioResource) {
+    var audio = document.getElementById("audio");
+    audio.src = audioResource;
+    audio.play();
+}

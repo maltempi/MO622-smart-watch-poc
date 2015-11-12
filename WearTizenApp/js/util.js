@@ -24,3 +24,8 @@ Util.prototype.playSound = function(audioResource) {
     audio.src = audioResource;
     audio.play();
 }
+
+Util.prototype.stopSound = function(audioResource) {
+    var audio = document.getElementById("audio");
+    audio.stop();   
+}

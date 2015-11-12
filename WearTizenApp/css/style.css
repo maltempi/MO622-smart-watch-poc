@@ -8,22 +8,27 @@ body {
 }
 
 .contents {
-	display: flex;
-	display: -webkit-flex;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	height:320px;
+    display: flex;
+    display: -webkit-flex;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height:320px;
 }
 
-
 .content_text {
-	font-weight:bold;
-	font-size:5em;
-	color:#fff;
+    font-weight:bold;
+    font-size:5em;
+    color:#fff;
+}
+
+.street_name {
+    font-weight:bold;
+    font-size:4em;
+    color:#fff;
 }
 
 .no_href {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 #footer {

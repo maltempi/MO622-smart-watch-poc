@@ -23,13 +23,44 @@ Action.prototype.tapScreen = function() {
         if (isDoubleTap) {
             that.disconnect();
         } else {
-            that.showStreetName();
+            if (that.isStreetShowing()) {
+                that.hideStreetName();
+            } else {
+                that.showStreetName();
+            }
         }
     });
-}
+};
+
+Action.prototype.isStreetShowing = function() {
+    return document.getElementById("extraInfoDiv").style.display === 'block';
+};
 
 Action.prototype.showStreetName = function() {
-    alert(this.streetName);
+    document.getElementById("signsDiv").style.display = 'none';
+    document.getElementById("extraInfoDiv").style.display = 'block';
+    document.getElementById("streetName").textContent = this.streetName;
+
+    switch (this.streetName) {
+        case 'Av. Brasil':
+            util.playSound('res/audios/av_brasil.mp3');
+            break;
+        case 'Av. Nove de Abril':
+            util.playSound('res/audios/av_nove_abril.mp3');
+            break;
+        case 'Av. dos Trabalhadores':
+            util.playSound('res/audios/av_pe_jaime.mp3');
+            break;
+        case 'Av. Pe. Jaime':
+            util.playSound('res/audios/av_trabalhadores.mp3');
+            break;
+    };
+};
+
+Action.prototype.hideStreetName = function() {
+    document.getElementById("signsDiv").style.display = 'block';
+    document.getElementById("extraInfoDiv").style.display = 'none';
+    document.getElementById("streetName").textContent = '';
 };
 
 Action.prototype.initObservers = function() {
@@ -61,7 +92,8 @@ Action.prototype.initObservers = function() {
 
     document.addEventListener("timeLeft", function(e) {
         console.log(e);
-        document.getElementById("timeLeft").innerHTML = e.detail;
+
+        document.getElementById("timeLeft").textContent = e.detail;
 
         switch (e.detail) {
             case 5:

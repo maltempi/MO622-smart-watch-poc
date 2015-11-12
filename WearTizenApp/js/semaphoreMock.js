@@ -69,8 +69,6 @@ SemaphoreMock.prototype.connect = function() {
 SemaphoreMock.prototype.startEngine = function() {
     this.semaphoreStatus = Math.floor(Math.random() * 2) === 0 ? 'stop' : 'go';
     this.street = this.streets[Math.floor(Math.random() * 3)];
-    this.fireEventStreetName();
-    this.fireEventSemaphoreStatus();
     this.run(this.timeoutGo);
 };
 
@@ -89,7 +87,10 @@ SemaphoreMock.prototype.run = function() {
         this.timeLeft = seconds;
     }
 
+    // the timeleft is most important!
     this.fireEventTimeLeft();
+    this.fireEventStreetName();
+    this.fireEventSemaphoreStatus();    
 
     this.timer(this.timeLeft);
 };
@@ -146,6 +147,10 @@ SemaphoreMock.prototype.fireEventSemaphoreStatus = function() {
     });
 
     document.dispatchEvent(event);
+};
+
+SemaphoreMock.prototype.getTimeLeft = function() {
+    return this.timeLeft;
 };
 
 /*

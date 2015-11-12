@@ -9,6 +9,12 @@ Action.prototype.connect = function() {
     this.street = "";
 };
 
+function playSound(audioResource) {
+    var audio = document.getElementById("audio");
+    audio.src = audioResource;
+    audio.play();
+}
+
 Action.prototype.disconnect = function() {
     navigator.vibrate(0); // cancel vibration
     this.semaphore.disconnect();
@@ -46,7 +52,13 @@ Action.prototype.initObservers = function() {
             navigator.vibrate(1000);
         } else {
             document.getElementById("sign").src = "res/images/go.png";
-            navigator.vibrate([500, 100, 500]); // 500 on; 100 off; 500 on;
+
+            if (that.semaphore.getTimeLeft() >= 1 && that.semaphore.getTimeLeft() <= 5) {
+                navigator.vibrate(1000);
+                playSound('res/audios/dangerous_crossing.mp3');
+            } else {
+                navigator.vibrate([500, 100, 500]); // 500 on; 100 off; 500 on;
+            }
             document.body.style.background = 'green';
         }
     });

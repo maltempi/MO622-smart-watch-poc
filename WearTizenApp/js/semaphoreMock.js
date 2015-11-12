@@ -90,7 +90,7 @@ SemaphoreMock.prototype.run = function() {
     // the timeleft is most important!
     this.fireEventTimeLeft();
     this.fireEventStreetName();
-    this.fireEventSemaphoreStatus();    
+    this.fireEventSemaphoreStatus();
 
     this.timer(this.timeLeft);
 };

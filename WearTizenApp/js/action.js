@@ -21,6 +21,7 @@ Action.prototype.tapScreen = function() {
 
     util.doubleTapHandler(function(isDoubleTap) {
         if (isDoubleTap) {
+            util.playSound('res/audios/disconnected.mp3', 2);
             that.disconnect();
         } else {
             if (that.isStreetShowing()) {
@@ -43,16 +44,16 @@ Action.prototype.showStreetName = function() {
 
     switch (this.streetName) {
         case 'Av. Brasil':
-            util.playSound('res/audios/av_brasil.mp3', 2);
+            util.playSound('res/audios/av_brasil.mp3', 1);
             break;
         case 'Av. Nove de Abril':
-            util.playSound('res/audios/av_nove_abril.mp3', 2);
+            util.playSound('res/audios/av_nove_abril.mp3', 1);
             break;
         case 'Av. dos Trabalhadores':
-            util.playSound('res/audios/av_trabalhadores.mp3', 2);
+            util.playSound('res/audios/av_trabalhadores.mp3', 1);
             break;
         case 'Av. Pe. Jaime':
-            util.playSound('res/audios/av_pe_jaime.mp3', 2);
+            util.playSound('res/audios/av_pe_jaime.mp3', 1);
             break;
     };
 };
@@ -76,19 +77,19 @@ Action.prototype.initObservers = function() {
             document.body.style.background = 'red';
 
             if (util.getCurrentSoundSource().indexOf('dangerous_crossing.mp3') > -1) {
-                util.playSound('res/audios/stop.mp3', 2, 3000);
+                util.playSound('res/audios/stop.mp3', 1);
             } else {
-                util.playSound('res/audios/stop.mp3', 3);
+                util.playSound('res/audios/stop.mp3', 2);
             }
             navigator.vibrate(1000);
         } else {
             document.getElementById("sign").src = "res/images/go.png";
 
             if (that.semaphore.getTimeLeft() >= 1 && that.semaphore.getTimeLeft() <= 5) {
-                util.playSound('res/audios/dangerous_crossing.mp3', 3);
+                util.playSound('res/audios/dangerous_crossing.mp3', 2);
                 navigator.vibrate(1000);
             } else {
-                util.playSound('res/audios/go.mp3', 3);
+                util.playSound('res/audios/go.mp3', 2);
                 navigator.vibrate([500, 100, 500]); // 500 on; 100 off; 500 on;
             }
             document.body.style.background = 'green';

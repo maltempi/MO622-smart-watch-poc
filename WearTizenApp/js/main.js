@@ -3,7 +3,9 @@ var util = new Util();
 
 window.onload = function () {
 
-	main.welcome();
+    if (window.history.length <= 1) {
+	   main.welcome();
+    }
 
     // add eventListener for tizenhwkey
     document.addEventListener('tizenhwkey', function (e) {

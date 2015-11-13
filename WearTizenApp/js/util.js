@@ -22,39 +22,35 @@ Util.prototype.doubleTapHandler = function(callback) {
  * Play a sound
  * @audioResource - audio file
  * @priority { noPriority: 0; lowPriority: 1; 2: high priority}
- * @timeout - valid only for lowPriority case, try wait a sound for x miliseconds
  */
-Util.prototype.playSound = function(audioResource, priority, timeout) {
+Util.prototype.playSound = function(audioResource, priority) {
     var audio = document.getElementById("audio");
 
-
-    if (priority === 0) {
+    if (priority == 0) {
         if (!audio.paused) {
             return;
         }
-    } else if (priority === 1 || priority === 2) {
+    } else if (priority == 1) {
 
-        // console.log(audio.onended + ' ' + audio.paused);
+        if (!audio.paused) {
 
-        if ((audio.onended == null || priority === 2) && !audio.paused) {
-            clearTimeout();
-            audio.onended = function() {
+            var audioTimeLeft = audio.duration - audio.currentTime;
+
+            audioTimeLeft = Math.round(audioTimeLeft);
+
+            setTimeout(function() {
                 this.resource = audioResource;
                 audio.pause();
                 audio.src = audioResource;
                 audio.play();
-                audio.onended = null;
-            };
-            if (timeout) {
-                setTimeout(function() {
-                    audio.onended = null;
-                }, timeout);
-            }
+            }, audioTimeLeft * 1000);
+
             return;
         }
 
     }
 
+    clearTimeout();
     audio.src = audioResource;
     audio.play();
 };

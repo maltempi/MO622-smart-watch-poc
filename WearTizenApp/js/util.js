@@ -22,8 +22,9 @@ Util.prototype.doubleTapHandler = function(callback) {
  * Play a sound
  * @audioResource - audio file
  * @priority { noPriority: 0; lowPriority: 1; 2: high priority}
+ * @onStartPlay - function to be called on start audio. Just make sense on lowPriority case.
  */
-Util.prototype.playSound = function(audioResource, priority) {
+Util.prototype.playSound = function(audioResource, priority, onStartPlay) {
     var audio = document.getElementById("audio");
 
     if (priority == 0) {
@@ -43,16 +44,19 @@ Util.prototype.playSound = function(audioResource, priority) {
                 audio.pause();
                 audio.src = audioResource;
                 audio.play();
+                onStartPlay();
             }, audioTimeLeft * 1400);
 
             return;
         }
-
     }
 
     clearTimeout();
     audio.src = audioResource;
     audio.play();
+    if (onStartPlay) {
+        onStartPlay();
+    }
 };
 
 Util.prototype.getCurrentSoundSource = function() {
@@ -69,3 +73,8 @@ Util.prototype.stopSound = function(audioResource) {
     var audio = document.getElementById("audio");
     audio.pause();
 }
+
+Util.prototype.getCurrentSoundDuration = function() {
+    var audio = document.getElementById("audio");
+    return audio.duration;
+};

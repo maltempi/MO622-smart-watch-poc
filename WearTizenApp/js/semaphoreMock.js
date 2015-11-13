@@ -37,7 +37,7 @@ function SemaphoreMock() {
     /*
      * Hardcoded streets names
      */
-    this.streets = ['Av. Brasil', 'Av. Nove de Abril', 'Av. dos Trabalhadores', 'Av. Pe. Jaime'];
+    this.streets = ['Av. Brasil', 'Av. Nove de Abril', 'Av. Pe. Jaime'];
 
     /*
      * The street
@@ -68,7 +68,7 @@ SemaphoreMock.prototype.connect = function() {
  */
 SemaphoreMock.prototype.startEngine = function() {
     this.semaphoreStatus = Math.floor(Math.random() * 2) === 0 ? 'stop' : 'go';
-    this.street = this.streets[Math.floor(Math.random() * 3)];
+    this.street = this.streets[Math.floor(Math.random() * 2)];
     this.run(this.timeoutGo);
 };
 

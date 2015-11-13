@@ -4,6 +4,6 @@
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <icon src="icon.png"/>
-    <name>WearTizenApp</name>
+    <name>Bengala</name>
     <tizen:profile name="wearable"/>
 </widget>

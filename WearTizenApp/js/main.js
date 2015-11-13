@@ -38,5 +38,10 @@ Main.prototype.welcome = function() {
 };
 
 Main.prototype.instruct = function () {
-    util.playSound('res/audios/instructions.mp3');
+    console.log(util.getCurrentSoundSource());
+    if (util.isSoundPlaying() && util.getCurrentSoundSource().indexOf('instructions.mp3') > -1) {
+        util.stopSound();
+    } else {
+        util.playSound('res/audios/instructions.mp3');
+    }
 };

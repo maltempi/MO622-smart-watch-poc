@@ -43,7 +43,7 @@ Util.prototype.playSound = function(audioResource, priority) {
                 audio.pause();
                 audio.src = audioResource;
                 audio.play();
-            }, audioTimeLeft * 1000);
+            }, audioTimeLeft * 1400);
 
             return;
         }

@@ -27,6 +27,12 @@ body {
     color:#fff;
 }
 
+.time_left {
+    font-weight:bold;
+    font-size:6em;
+    color:#fff;
+}
+
 .no_href {
     text-decoration: none;
 }

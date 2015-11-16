@@ -104,22 +104,69 @@ Action.prototype.setStatusToGo = function() {
 
 
 Action.prototype.setStatusToDangerousCrossing = function() {
-    document.body.style.background = 'yellow';
     util.playSound('res/audios/dangerous_crossing.mp3', 2);
+    this.flashesScreen(this.timeLeft * 2, 'red', 'black', 'res/images/stop-white.png', 'res/images/stop.png',
+        'red', 'res/images/stop.png');
     navigator.vibrate(1000);
+    document.body.style.background = 'red';
     document.getElementById("sign").src = "res/images/stop.png";
 };
 
 
+/**
+ * Flashes the screen changing the background color and the image
+ *
+ * @param times - number of times to flash
+ * @param colorOn - color to 'on' flash status
+ * @param colorOff - color to 'off' flash status
+ * @param imageOn - image to set when on status
+ * @param imageOf - image to set when off status
+ * @param colorFinal - setted color when stop the flashes
+ * @param imageFinal - setted image when stop the flashes
+ */
+Action.prototype.flashesScreen = function(times, colorOn, colorOff, imageOn, imageOff, colorFinal, imageFinal) {
+    var that = this;
+
+    if (times <= 0) {
+        if (colorFinal) {
+            document.body.style.background = colorFinal;
+        } else if (that.semaphoreStatus === 'stop') {
+            document.body.style.background = 'red';
+        } else {
+            document.body.style.background = 'green';
+        }
+
+        document.getElementById("sign").src = imageFinal;
+
+        return;
+    }
+
+    setTimeout(function() {
+        if (document.body.style.background === colorOff) {
+            document.body.style.background = colorOn;
+            document.getElementById("sign").src = imageOff;
+        } else {
+            document.body.style.background = colorOff;
+            document.getElementById("sign").src = imageOn;
+        }
+
+        times--;
+        that.flashesScreen(times, colorOn, colorOff, imageOn, imageOff, colorFinal, imageFinal);
+    }, 500);
+}
+
+/**
+ * Initialize the listeners to get events from semaphore mock
+ */
 Action.prototype.initObservers = function() {
 
     var that = this;
 
     document.addEventListener("semaphoreStatus", function(e) {
         console.log(e);
-        var semaphoreStatus = e.detail;
+        that.semaphoreStatus = e.detail;
 
-        if (semaphoreStatus === 'stop') {
+        if (that.semaphoreStatus === 'stop') {
             that.setStatusToStop();
         } else {
             if (that.semaphore.getTimeLeft() >= 1 && that.semaphore.getTimeLeft() <= 5) {
@@ -133,11 +180,17 @@ Action.prototype.initObservers = function() {
     document.addEventListener("timeLeft", function(e) {
         console.log(e);
 
-        document.getElementById("timeLeft").textContent = e.detail;
+        that.timeLeft = e.detail;
+        document.getElementById("timeLeft").textContent = that.timeLeft;
 
-        switch (e.detail) {
+        switch (that.timeLeft) {
             case 5:
-                util.playSound('res/audios/time_left_5.mp3', 0);
+                if (that.semaphoreStatus === 'go') {
+                    that.setStatusToDangerousCrossing();
+                } else {
+                    util.playSound('res/audios/time_left_5.mp3', 0);
+                }
+
                 break;
             case 10:
                 util.playSound('res/audios/time_left_10.mp3', 0);

@@ -2,6 +2,7 @@ function Action() {
     this.connect();
 }
 
+
 Action.prototype.connect = function() {
     this.semaphore = new SemaphoreMock();
     this.initObservers();
@@ -9,11 +10,13 @@ Action.prototype.connect = function() {
     this.street = "";
 };
 
+
 Action.prototype.disconnect = function() {
     navigator.vibrate(0); // cancel vibration
     this.semaphore.disconnect();
     document.location.href = 'index.html';
 };
+
 
 Action.prototype.tapScreen = function() {
 
@@ -33,9 +36,11 @@ Action.prototype.tapScreen = function() {
     });
 };
 
+
 Action.prototype.isStreetShowing = function() {
     return document.getElementById("extraInfoDiv").style.display === 'block';
 };
+
 
 Action.prototype.showStreetName = function() {
 
@@ -68,11 +73,44 @@ Action.prototype.showStreetName = function() {
     };
 };
 
+
 Action.prototype.hideStreetName = function() {
     document.getElementById("signsDiv").style.display = 'block';
     document.getElementById("extraInfoDiv").style.display = 'none';
     document.getElementById("streetName").textContent = '';
 };
+
+
+Action.prototype.setStatusToStop = function() {
+    document.getElementById("sign").src = "res/images/stop.png";
+    document.body.style.background = 'red';
+
+    // If is on dangerous crossing alert, wait the alert finish to alert stop status.
+    if (util.getCurrentSoundSource().indexOf('dangerous_crossing.mp3') > -1) {
+        util.playSound('res/audios/stop.mp3', 1);
+    } else {
+        util.playSound('res/audios/stop.mp3', 2);
+    }
+
+    navigator.vibrate(1000);
+};
+
+
+Action.prototype.setStatusToGo = function() {
+    document.body.style.background = 'green';
+    document.getElementById("sign").src = "res/images/go.png";
+    util.playSound('res/audios/go.mp3', 2);
+    navigator.vibrate([500, 100, 500]); // 500 on; 100 off; 500 on;
+};
+
+
+Action.prototype.setStatusToDangerousCrossing = function() {
+    document.body.style.background = 'yellow';
+    util.playSound('res/audios/dangerous_crossing.mp3', 2);
+    navigator.vibrate(1000);
+    document.getElementById("sign").src = "res/images/stop.png";
+};
+
 
 Action.prototype.initObservers = function() {
 
@@ -83,26 +121,13 @@ Action.prototype.initObservers = function() {
         var semaphoreStatus = e.detail;
 
         if (semaphoreStatus === 'stop') {
-            document.getElementById("sign").src = "res/images/stop.png";
-            document.body.style.background = 'red';
-
-            if (util.getCurrentSoundSource().indexOf('dangerous_crossing.mp3') > -1) {
-                util.playSound('res/audios/stop.mp3', 1);
-            } else {
-                util.playSound('res/audios/stop.mp3', 2);
-            }
-            navigator.vibrate(1000);
+            that.setStatusToStop();
         } else {
-            document.getElementById("sign").src = "res/images/go.png";
-
             if (that.semaphore.getTimeLeft() >= 1 && that.semaphore.getTimeLeft() <= 5) {
-                util.playSound('res/audios/dangerous_crossing.mp3', 2);
-                navigator.vibrate(1000);
+                that.setStatusToDangerousCrossing();
             } else {
-                util.playSound('res/audios/go.mp3', 2);
-                navigator.vibrate([500, 100, 500]); // 500 on; 100 off; 500 on;
+                that.setStatusToGo();
             }
-            document.body.style.background = 'green';
         }
     });
 
@@ -155,5 +180,6 @@ Action.prototype.initObservers = function() {
     });
 */
 };
+
 
 var action = new Action();

@@ -24,7 +24,6 @@ Action.prototype.tapScreen = function() {
 
     util.doubleTapHandler(function(isDoubleTap) {
         if (isDoubleTap) {
-            util.playSound('res/audios/disconnected.mp3', 2);
             that.disconnect();
         } else {
             if (that.isStreetShowing()) {

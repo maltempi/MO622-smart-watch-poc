@@ -17,7 +17,7 @@ function SemaphoreMock() {
     /*
      *  The max time to 'go' status is 10 seconds
      */
-    this.timeoutGo = 10;
+    this.timeoutGo = 15;
 
     /*
      *  The max time to 'go' status is 20 seconds

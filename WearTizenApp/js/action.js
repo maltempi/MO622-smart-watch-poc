@@ -3,7 +3,7 @@ function Action() {
 }
 
 
-Action.prototype.connect = function() {
+Action.prototype.connect = function () {
     this.semaphore = new SemaphoreMock();
     this.initObservers();
     this.semaphore.connect();
@@ -11,18 +11,18 @@ Action.prototype.connect = function() {
 };
 
 
-Action.prototype.disconnect = function() {
+Action.prototype.disconnect = function () {
     navigator.vibrate(0); // cancel vibration
     this.semaphore.disconnect();
     document.location.href = 'index.html';
 };
 
 
-Action.prototype.tapScreen = function() {
+Action.prototype.tapScreen = function () {
 
     var that = this;
 
-    util.doubleTapHandler(function(isDoubleTap) {
+    util.doubleTapHandler(function (isDoubleTap) {
         if (isDoubleTap) {
             that.disconnect();
         } else {
@@ -36,64 +36,57 @@ Action.prototype.tapScreen = function() {
 };
 
 
-Action.prototype.isStreetShowing = function() {
+Action.prototype.isStreetShowing = function () {
     return document.getElementById("extraInfoDiv").style.display === 'block';
 };
 
 
-Action.prototype.showStreetName = function() {
+Action.prototype.showStreetName = function () {
 
     var that = this;
 
-    var onStartVoice = function() {
+    var onStartVoice = function () {
         document.getElementById("signsDiv").style.display = 'none';
         document.getElementById("extraInfoDiv").style.display = 'block';
         document.getElementById("streetName").textContent = that.streetName;
 
-        audio.addEventListener('loadedmetadata', function() {
-            setTimeout(function() {
+        audio.addEventListener('loadedmetadata', function () {
+            setTimeout(function () {
                 that.hideStreetName();
             }, Math.round(util.getCurrentSoundDuration()) * 1000);
         });
     };
 
     switch (this.streetName) {
-        case 'Av. Brasil':
-            util.playSound('res/audios/av_brasil.mp3', 1, onStartVoice);
-            break;
-        case 'Av. Nove de Abril':
-            util.playSound('res/audios/av_nove_abril.mp3', 1, onStartVoice);
-            break;
-        case 'Av. Pe. Jaime':
-            util.playSound('res/audios/av_pe_jaime.mp3', 1, onStartVoice);
-            break;
+    case 'Av. Brasil':
+        util.playSound('res/audios/av_brasil.mp3', 1, onStartVoice);
+        break;
+    case 'Av. Nove de Abril':
+        util.playSound('res/audios/av_nove_abril.mp3', 1, onStartVoice);
+        break;
+    case 'Av. Pe. Jaime':
+        util.playSound('res/audios/av_pe_jaime.mp3', 1, onStartVoice);
+        break;
     };
 };
 
 
-Action.prototype.hideStreetName = function() {
+Action.prototype.hideStreetName = function () {
     document.getElementById("signsDiv").style.display = 'block';
     document.getElementById("extraInfoDiv").style.display = 'none';
     document.getElementById("streetName").textContent = '';
 };
 
 
-Action.prototype.setStatusToStop = function() {
+Action.prototype.setStatusToStop = function () {
     document.getElementById("sign").src = "res/images/stop.png";
     document.body.style.background = 'red';
-
-    // If is on dangerous crossing alert, wait the alert finish to alert stop status.
-    if (util.getCurrentSoundSource().indexOf('dangerous_crossing.mp3') > -1) {
-        util.playSound('res/audios/stop.mp3', 1);
-    } else {
-        util.playSound('res/audios/stop.mp3', 2);
-    }
-
+    util.playSound('res/audios/stop.mp3', 2);
     navigator.vibrate(1000);
 };
 
 
-Action.prototype.setStatusToGo = function() {
+Action.prototype.setStatusToGo = function () {
     document.body.style.background = 'green';
     document.getElementById("sign").src = "res/images/go.png";
     util.playSound('res/audios/go.mp3', 2);
@@ -101,12 +94,13 @@ Action.prototype.setStatusToGo = function() {
 };
 
 
-Action.prototype.setStatusToDangerousCrossing = function() {
+Action.prototype.setStatusToDangerousCrossing = function () {
     util.playSound('res/audios/dangerous_crossing.mp3', 2);
     this.flashesScreen(this.timeLeft * 2, 'red', 'black', 'res/images/stop-white.png', 'res/images/stop.png',
         'red', 'res/images/stop.png');
     navigator.vibrate(1000);
     document.body.style.background = 'red';
+
     document.getElementById("sign").src = "res/images/stop.png";
 };
 
@@ -122,7 +116,7 @@ Action.prototype.setStatusToDangerousCrossing = function() {
  * @param colorFinal - setted color when stop the flashes
  * @param imageFinal - setted image when stop the flashes
  */
-Action.prototype.flashesScreen = function(times, colorOn, colorOff, imageOn, imageOff, colorFinal, imageFinal) {
+Action.prototype.flashesScreen = function (times, colorOn, colorOff, imageOn, imageOff, colorFinal, imageFinal) {
     var that = this;
 
     if (times <= 0) {
@@ -139,7 +133,7 @@ Action.prototype.flashesScreen = function(times, colorOn, colorOff, imageOn, ima
         return;
     }
 
-    setTimeout(function() {
+    setTimeout(function () {
         if (document.body.style.background === colorOff) {
             document.body.style.background = colorOn;
             document.getElementById("sign").src = imageOff;
@@ -156,11 +150,11 @@ Action.prototype.flashesScreen = function(times, colorOn, colorOff, imageOn, ima
 /**
  * Initialize the listeners to get events from semaphore mock
  */
-Action.prototype.initObservers = function() {
+Action.prototype.initObservers = function () {
 
     var that = this;
 
-    document.addEventListener("semaphoreStatus", function(e) {
+    document.addEventListener("semaphoreStatus", function (e) {
         that.semaphoreStatus = e.detail;
 
         if (that.semaphoreStatus === 'stop') {
@@ -174,29 +168,29 @@ Action.prototype.initObservers = function() {
         }
     });
 
-    document.addEventListener("timeLeft", function(e) {
+    document.addEventListener("timeLeft", function (e) {
         that.timeLeft = e.detail;
         document.getElementById("timeLeft").textContent = that.timeLeft;
 
         switch (that.timeLeft) {
-            case 5:
-                if (that.semaphoreStatus === 'go') {
-                    that.setStatusToDangerousCrossing();
-                } else {
-                    util.playSound('res/audios/time_left_5.mp3', 0);
-                }
+        case 5:
+            if (that.semaphoreStatus === 'go') {
+                that.setStatusToDangerousCrossing();
+            } else {
+                util.playSound('res/audios/time_left_5.mp3', 0);
+            }
 
-                break;
-            case 10:
-                util.playSound('res/audios/time_left_10.mp3', 0);
-                break;
-            case 15:
-                util.playSound('res/audios/time_left_15.mp3', 0);
-                break;
+            break;
+        case 10:
+            util.playSound('res/audios/time_left_10.mp3', 0);
+            break;
+        case 15:
+            util.playSound('res/audios/time_left_15.mp3', 0);
+            break;
         };
     });
 
-    document.addEventListener("streetName", function(e) {
+    document.addEventListener("streetName", function (e) {
         that.streetName = e.detail;
     });
 

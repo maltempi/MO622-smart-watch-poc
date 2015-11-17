@@ -6,7 +6,7 @@ window.onload = function() {
     if (window.history.length <= 1) {
         main.welcome();
     } else {
-        main.disconnected();
+        main.disconnectedStatus();
     }
 
     // add eventListener for tizenhwkey
@@ -38,7 +38,7 @@ Main.prototype.connect = function() {
 };
 
 
-Main.prototype.disconnected = function() {
+Main.prototype.disconnectedStatus = function() {
     util.playSound('res/audios/disconnected.mp3', 2);
 };
 
@@ -49,7 +49,6 @@ Main.prototype.welcome = function() {
 
 
 Main.prototype.instruct = function() {
-    console.log(util.getCurrentSoundSource());
     if (util.isSoundPlaying() && util.getCurrentSoundSource().indexOf('instructions.mp3') > -1) {
         util.stopSound();
     } else {

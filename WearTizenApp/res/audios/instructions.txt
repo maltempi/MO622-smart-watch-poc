@@ -1,1 +1,5 @@
+# Portuguese - Brazil
 Quando estiver próximo à um semáforo, toque duas vezes em qualquer lugar da tela do relógio para se conectar. Depois de conectado, você começará a receber informações sobre o semáforo. Se quiser saber informações da rua em que você está conectado, toque uma única vez em qualquer lugar da tela. Para se desconectar do semáforo, toque duas vezes em qualquer lugar da tela.
+
+# English
+When you're near a traffic light, double-tap anywhere on smartwatch display to connect. Once connected, you will start receiving informations about trafic light. If you want to street informations that you are connected, tap once anywhere of the display. To disconnect from the traffic light, double-tap on anywhere on the display.

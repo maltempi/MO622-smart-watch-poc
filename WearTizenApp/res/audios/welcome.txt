@@ -1,1 +1,5 @@
+# PT - Brazil
 Toque uma única vez em qualquer lugar da tela do relógio para receber instruções. Toque duas vezes em qualquer lugar da tela quando próximo a um semáforo para se conectar.
+
+# EN
+Tap once anywhere on display to receive instructions. Double-tap anywhere on display when you near from a trafic light to connect yourself.

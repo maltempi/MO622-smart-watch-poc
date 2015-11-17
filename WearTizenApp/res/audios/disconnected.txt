@@ -1,0 +1,5 @@
+# Portuguese Brazil
+Semáforo desconectado
+
+# English
+The traffic light was disconnected.

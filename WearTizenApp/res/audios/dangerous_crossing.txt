@@ -1,1 +1,5 @@
-Travessia perigosa. Menos de 5 segundos para vermelho.
+# Portuguese - Brazil
+Travessia perigosa. Menos de 5 segundos para fechar.
+
+# English - probably this sentence can be improved. :-)
+Dangerous Crossing. Less than 5 seconds to finish the time.

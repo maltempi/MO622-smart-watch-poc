@@ -50,8 +50,6 @@ Action.prototype.showStreetName = function() {
         document.getElementById("extraInfoDiv").style.display = 'block';
         document.getElementById("streetName").textContent = that.streetName;
 
-        console.log(document.getElementById("audio").duration);
-
         audio.addEventListener('loadedmetadata', function() {
             setTimeout(function() {
                 that.hideStreetName();
@@ -163,7 +161,6 @@ Action.prototype.initObservers = function() {
     var that = this;
 
     document.addEventListener("semaphoreStatus", function(e) {
-        console.log(e);
         that.semaphoreStatus = e.detail;
 
         if (that.semaphoreStatus === 'stop') {
@@ -178,8 +175,6 @@ Action.prototype.initObservers = function() {
     });
 
     document.addEventListener("timeLeft", function(e) {
-        console.log(e);
-
         that.timeLeft = e.detail;
         document.getElementById("timeLeft").textContent = that.timeLeft;
 
